@@ -7,8 +7,8 @@ define([
         var AppRouter = Backbone.Router.extend({
                 routes : {
                     '' : 'allWords',
-                    'word/:name': 'singleWord',
-                    'word/add' : 'addWord'
+                    'word/:name': 'singleWord'
+                    //'word/add' : 'addWord'
                 },
                 singleWord : function(name){
                     this.navigate('word/'+name, {trigger: true});
@@ -17,6 +17,10 @@ define([
                 allWords : function(name){
                     console.log('all words route function');
                     this.trigger('allWords', name);
+                },
+                addWord : function(){
+                    console.log('add words route function');
+                    this.trigger('addWord');
                 }
         }
         );

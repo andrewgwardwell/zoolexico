@@ -1,8 +1,11 @@
-
-<h2>{{name}}</h2>
-<div class="def">
-    {{#definition}}
-    <div class="def__item def__item--votes">{{votes}}</div>
-    <div class="def__item def__item--body">{{definition}}</div>
-    {{/definition}}
+<a href="#word/{{name}}">
+<div class="def__wrapper">
+    <h2 class="def__title">{{name}}</h2>
+    <div class="def">
+        {{#definition}}
+        <div class="def__item def__item--votes">{{votes}}</div>
+        <div class="def__item def__item--body">{{definition}}</div>
+        {{/definition}}
+    </div>
 </div>
+</a>

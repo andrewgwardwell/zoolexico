@@ -15,9 +15,9 @@ app.get('/words', words.findAll);
 
 app.get('/words/:name', words.findByName);
 
-app.post('/words/add', words.addWine);
+app.post('/words/add', words.addWord);
 
-app.put('/words/:id', words.updateWine);
+//app.put('/words/:id', words.updateWord);
 
 io.on('connection', function(socket){
   console.log('a user connected');

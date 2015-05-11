@@ -13,7 +13,7 @@ define([
                 idAttribute : 'name',
                 defaults: {
                     name : 'somename',
-                    _id : 'id',
+                    _id : '',
                     definitions: [],
                     examples: []
                 },

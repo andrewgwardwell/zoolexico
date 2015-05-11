@@ -11,6 +11,7 @@ db.open(function(err, db) {
     if(!err){
         console.log('connected to wordsdb');
         db.collection('words', {strict: true}, function (err, collection) {
+            console.log('connect to db');
             if(err){
                 console.log('the wines collection doesnt exist. create it with sample data...');
                 populateDB();
@@ -20,6 +21,7 @@ db.open(function(err, db) {
         console.log('error connecting' + err);
     }
 });
+
 
 exports.findAll = function(req, res){
     db.collection('words', function(err, collection){
@@ -46,11 +48,15 @@ exports.findByName = function(req, res){
     });
 }
 
-exports.addWine = function(req, res){
-    var wine = req.body;
-    console.log('adding wine'+ JSON.stringify(wine));
-    db.collection('wines', function(err, collection){
-        collection.insert(wine, {safe:true}, function(err, result){
+exports.addWord = function(req, res){
+    var word = {
+        name: req.body.name,
+        definitions: req.body.definitions,
+        examples: req.body.examples
+    };
+    console.log('adding word'+ JSON.stringify(word));
+    db.collection('words', function(err, collection){
+        collection.insert(word, {safe:true}, function(err, result){
             if(err){
                 res.send({'error':'An Error occured with insertion'});
             } else {
@@ -61,24 +67,24 @@ exports.addWine = function(req, res){
     });
 }
 
-exports.updateWine = function(req, res){
-    var id = req.params.name;
-    var wine = req.body;
-    console.log('Updating Wine: '+ name);
-    console.log(JSON.stringify(wine));
-    db.collection('wines', function(err, collection){
-        collection.update({'_id':new BSON.ObjectID(id)}, wine, {safe:true}, function(err, result){
-            if(err){
-                console.log('Error updating wine:'+ err);
-                res.send({'error': 'an error has occured'});
-            } else {
-                console.log('' + result + ' document(s) updated');
-                res.send(wine);
-            }
-        });
-    });
-
-}
+//exports.updateWord = function(req, res){
+//    var id = req.params.name;
+//    var word = req;
+//    console.log('Updating Wine: '+ name);
+//    console.log(JSON.stringify(word));
+//    db.collection('words', function(err, collection){
+//        collection.update({'_id':new BSON.ObjectID(id)}, word, {safe:true}, function(err, result){
+//            if(err){
+//                console.log('Error updating wine:'+ err);
+//                res.send({'error': 'an error has occured'});
+//            } else {
+//                console.log('' + result + ' document(s) updated');
+//                res.send(result[0]);
+//            }
+//        });
+//    });
+//
+//}
 
 exports.deleteWine = function(req, res){
     var id = req.params.id;
