@@ -6,6 +6,8 @@ var http = require('http').Server(app);
 var path = require('path');
 var words = require('./routes/words');
 var io = require('socket.io')(http);
+//var stream = require('./routes/stream');
+
 
 app.use(express.static(path.join(__dirname, '../', '/')));
 app.use(bodyParser());
@@ -15,21 +17,24 @@ app.get('/words', words.findAll);
 
 app.get('/words/:name', words.findByName);
 
-app.post('/words/add', words.addWord);
+app.post('/words/add', [words.addWord, function(req, res){
+    io.emit('word_added', '');
+}]);
 
 //app.put('/words/:id', words.updateWord);
 
 io.on('connection', function(socket){
-  console.log('a user connected');
-  io.emit('connected', 'user new');
-  socket.on('disconnect', function(){
-       io.emit('disconnected', 'user gone');
-  });
+    console.log('a user connected boom');
+    io.emit('connected', 'user new');
+    socket.on('disconnect', function(){
+        io.emit('disconnected', 'user gone');
+    });
 
-  socket.on('chat', function(msg){
-       io.emit('chat again', msg);
-	});
+    socket.on('connect', function(msg){
+        io.emit('chat again', msg);
+    });
 });
+
 
 http.listen(3000, 'localhost', function(){
    console.log('listening on 3000');

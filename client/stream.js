@@ -19,5 +19,8 @@ define([
         socket.on('chat again', function(msg){
             $('#messages').append($('<li>').text(msg));
         });
+        socket.on('word_added', function(){
+            alert('new Word');
+        });
         return socket;
     });

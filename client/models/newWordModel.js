@@ -10,9 +10,7 @@ define([
         var newWordModel = Backbone.Model.extend({
                 url: '/words/add',
 
-                idAttribute : 'name',
                 defaults: {
-                    name : 'sample_name',
                     definitions: [],
                     examples: []
                 }

@@ -60,8 +60,7 @@ exports.addWord = function(req, res){
             if(err){
                 res.send({'error':'An Error occured with insertion'});
             } else {
-                console.log('Success: '+ JSON.stringify(result[0]));
-                res.send(result[0]);
+                res.send({});
             }
         });
     });

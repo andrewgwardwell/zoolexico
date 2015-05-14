@@ -19,8 +19,9 @@ define([
                 'definitions': [ {'votes': 1, 'definition' : this.$el.find('.word_add__field--description').val()}]
             };
 
-            var word = new newWordModel(values);
-            word.save();
+            var word = new newWordModel();
+            var is_new = word.isNew();
+            word.save(values, {wait: true});
         }
 
 
