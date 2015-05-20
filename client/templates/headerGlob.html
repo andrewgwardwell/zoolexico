@@ -3,9 +3,35 @@
         <a href="/"><li class="header__item">Home</li></a>
         <a href="#word/add"><li class="header__item">Add Word</li></a>
     </ul>
-    <form class="word_add__form">
+    <form class="first word_add__form">
         <input class="word_add__field word_add__field--name" name="word_name" type="text" maxlength="255"/>
         <input class="word_add__field word_add__field--description" name="word_description" type="text" maxlength="255" multiple="true"/>
         <input class="word_add__field word_add__field--submit" name="word_save" type="button" value="save word"/>
+    </form>
+    <form action="/login" method="post">
+        <div>
+            <label>Username:</label>
+            <input type="text" name="username"/>
+        </div>
+        <div>
+            <label>Password:</label>
+            <input type="password" name="password"/>
+        </div>
+        <div>
+            <input type="submit" value="Log In"/>
+        </div>
+    </form>
+    <form class="last" action="/newuser" method="post">
+        <div>
+            <label>Username:</label>
+            <input type="text" name="name"/>
+        </div>
+        <div>
+            <label>Password:</label>
+            <input type="text" name="pass"/>
+        </div>
+        <div>
+            <input type="submit" value="Sign Up"/>
+        </div>
     </form>
 </div>

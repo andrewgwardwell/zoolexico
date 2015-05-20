@@ -1,4 +1,5 @@
 var mongo = require('mongodb');
+var User = require('./users.js');
 
 var Server = mongo.Server,
     Db = mongo.Db,
@@ -15,6 +16,12 @@ db.open(function(err, db) {
             if(err){
                 console.log('the wines collection doesnt exist. create it with sample data...');
                 populateDB();
+            }
+        });
+        db.collection('users', {strict: true}, function (err, collection) {
+            if(err){
+                console.log('the user data doesnt exist');
+                populateUser();
             }
         });
     } else {
@@ -98,6 +105,63 @@ exports.deleteWine = function(req, res){
             }
         });
     });
+},
+
+exports.localStrategy = function(username, password, done) {
+
+    db.collection('users', function(err, collection){
+        if(err){
+            console.log('collection issue with the users collection'+username+password);
+        } else {
+            console.log('collection users found');
+            collection.findOne({ name: username }, function(err, user) {
+                if (err) { return done(err); }
+                console.log('past_error 1'+ user);
+                if (!user) {
+                    return done(null, false, { message: 'Incorrect username.' });
+                }
+                if (user.password != password) {
+                    return done(null, false, { message: 'Incorrect password.' });
+                }
+                return done(null, user);
+            });
+        }
+    });
+
+}
+
+exports.newUser = function(req, res) {
+    console.log('request: '+ req.body.name +' : '+req.body.pass);
+    var name = req.body.name;
+    var pass = req.body.pass;
+    var user = new User({ 'name': 'Andrew', 'username': name, 'password': pass });
+    user.save(function(err){
+        if(!err){
+            res.send('user saved');
+        } else {
+            res.send('user could not be saved'+ JSON.stringify(err));
+
+        }
+    });
+    //db.collection('users', function(err, collection){
+    //    if(err){
+    //        console.log('collection issue with the users collection'+username+password);
+    //    } else {
+    //        console.log('collection users found');
+    //        collection.findOne({ name: username }, function(err, user) {
+    //            if (err) { return done(err); }
+    //            console.log('past_error 1'+ user);
+    //            if (!user) {
+    //                return done(null, false, { message: 'Incorrect username.' });
+    //            }
+    //            if (user.password != password) {
+    //                return done(null, false, { message: 'Incorrect password.' });
+    //            }
+    //            return done(null, user);
+    //        });
+    //    }
+    //});
+
 }
 
 
@@ -145,6 +209,23 @@ var populateDB = function() {
 
     db.collection('words', function(err, collection) {
         collection.insert(words, {safe:true}, function(err, result) {});
+    });
+
+};
+
+
+var populateUser = function() {
+
+    var users = [
+        {
+            name: "Merlandrew",
+            password: "password"
+
+        },
+    ];
+
+    db.collection('users', function(err, collection) {
+        collection.insert(users, {safe:true}, function(err, result) {});
     });
 
 };
