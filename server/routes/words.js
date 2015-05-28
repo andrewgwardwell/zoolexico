@@ -108,15 +108,12 @@ exports.deleteWine = function(req, res){
 },
 
 exports.localStrategy = function(username, password, done) {
-
     db.collection('users', function(err, collection){
         if(err){
             console.log('collection issue with the users collection'+username+password);
         } else {
-            console.log('collection users found');
             collection.findOne({ name: username }, function(err, user) {
                 if (err) { return done(err); }
-                console.log('past_error 1'+ user);
                 if (!user) {
                     return done(null, false, { message: 'Incorrect username.' });
                 }
@@ -131,7 +128,6 @@ exports.localStrategy = function(username, password, done) {
 }
 
 exports.newUser = function(req, res) {
-    console.log('request: '+ req.body.name +' : '+req.body.pass);
     var name = req.body.name;
     var pass = req.body.pass;
     var user = new User({ 'name': 'Andrew', 'username': name, 'password': pass });
@@ -143,25 +139,6 @@ exports.newUser = function(req, res) {
 
         }
     });
-    //db.collection('users', function(err, collection){
-    //    if(err){
-    //        console.log('collection issue with the users collection'+username+password);
-    //    } else {
-    //        console.log('collection users found');
-    //        collection.findOne({ name: username }, function(err, user) {
-    //            if (err) { return done(err); }
-    //            console.log('past_error 1'+ user);
-    //            if (!user) {
-    //                return done(null, false, { message: 'Incorrect username.' });
-    //            }
-    //            if (user.password != password) {
-    //                return done(null, false, { message: 'Incorrect password.' });
-    //            }
-    //            return done(null, user);
-    //        });
-    //    }
-    //});
-
 }
 
 

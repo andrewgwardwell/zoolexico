@@ -43,7 +43,13 @@ app.post('/words/add', [words.addWord, function(req, res){
 }]);
 
 app.post('/login',
-    passport.authenticate('local', { successRedirect: '/', failureRedirect: '/loginFailure'})
+    passport.authenticate('local', { failureRedirect: '/loginFailure'}),
+    function(req, res) {
+        // If this function gets called, authentication was successful.
+        // `req.user` contains the authenticated user.
+        console.log(req);
+        res.redirect('/users/' + req.user.name);
+    }
 );
 
 app.post('/newuser', words.newUser);
